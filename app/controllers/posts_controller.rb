@@ -10,6 +10,8 @@ class PostsController < ApplicationController
   def create
     @p = Post.new(params.require(:post).permit([:title, :body, :public]))
     if @p.save
+      @message = "Post created!"
+      flash[:notice] = "Post Created!"
       redirect_to post_path(@p)
     else
       render :new
@@ -28,17 +30,15 @@ class PostsController < ApplicationController
     edit
     @p.update(params.require(:post).permit([:title, :body, :public]))
     if @p.save
-      @message = "Post updated!"
-      redirect_to(root_path)
+      redirect_to(root_path, notice: "Post updated!")
     else
-      flash[:notice] = "Update failed..."
-      render :edit
+      render(:edit, notice: "Post update failed...")
     end
   end
 
   def destroy
     @p = Post.find(params[:id])
     @p.destroy
-    redirect_to(root_path, notice: "Questions deleted successfully")
+    redirect_to(root_path, notice: "Post deleted successfully")
   end
 end

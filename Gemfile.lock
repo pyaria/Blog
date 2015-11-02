@@ -37,9 +37,15 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
+    autoprefixer-rails (6.0.3)
+      execjs
+      json
     awesome_print (1.6.1)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (3.3.5.1)
+      autoprefixer-rails (>= 5.0.0.1)
+      sass (>= 3.3.0)
     builder (3.2.2)
     byebug (6.0.2)
     coffee-rails (4.1.0)
@@ -49,9 +55,12 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
+    cowsay (0.2.0)
     debug_inspector (0.0.2)
     erubis (2.7.0)
     execjs (2.6.0)
+    faker (1.5.0)
+      i18n (~> 0.5)
     ffi (1.9.10)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
@@ -152,8 +161,11 @@ PLATFORMS
 
 DEPENDENCIES
   awesome_print
+  bootstrap-sass
   byebug
   coffee-rails (~> 4.1.0)
+  cowsay
+  faker
   hirb
   interactive_editor
   jbuilder (~> 2.0)
