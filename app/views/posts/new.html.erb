@@ -1,0 +1,16 @@
+<h1>Create a new blog post</h1>
+<%= form_for @p do |p| %>
+  <div>
+    <%= p.label :title %>
+    <%= p.text_field :title %>
+  </div>
+  <div>
+    <%= p.label :body %>
+    <%= p.text_area :body %>
+  </div>
+  <div>
+    <%= p.label :public %>
+    <%= p.check_box :public%>
+  </div>
+  <%= p.submit %>
+<% end %>

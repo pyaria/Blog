@@ -1,0 +1,7 @@
+<h1>All your blog posts [posts#index]</h1>
+<%= @message %>
+<% @p.each do |p|%>
+  <div>
+    <%= link_to p.title, post_path(p) %>
+  </div>
+<% end %>
