@@ -1,0 +1,56 @@
+<div class="container-fluid">
+  <h1>Comments Index</h1>
+  <hr>
+  <h3>5 stars!</h3>
+  <div class="well">
+    <% @star5.each do |c| %>
+      <h4><%=
+         link_to "#{c.title}", comment_path(c) %></h4>
+      <p><%= c.body.truncate(20) %></p>
+    <% end %>
+  </div>
+  <hr>
+  <h3>4 stars!</h3>
+  <div class="well">
+    <% @star4.each do |c| %>
+      <hr>
+      <h4><%= link_to "#{c.title}", comment_path(c) %></h4>
+      <p><%= c.body.truncate(20) %></p>
+    <% end %>
+  </div>
+  <hr>
+  <h3>3 stars!</h3>
+  <div class="well">
+  <% @star3.each do |c| %>
+    <hr>
+    <h4><%= link_to "#{c.title}", comment_path(c) %></h4>
+    <p><%= c.body.truncate(20) %></p>
+  <% end %>
+  <hr>
+  <h3>2 stars!</h3>
+  <div class="well">
+    <% @star2.each do |c| %>
+      <hr>
+      <h4><%= link_to "#{c.title}", comment_path(c) %></h4>
+      <p><%= c.body.truncate(20) %></p>
+    <% end %>
+  </div>
+  <hr>
+  <h3>1 stars!</h3>
+  <div class="well">
+    <% @star1.each do |c| %>
+      <hr>
+      <h4><%= link_to "#{c.title}", comment_path(c) %></h4>
+      <p><%= c.body.truncate(20) %></p>
+    <% end %>
+  </div>
+  <hr>
+  <h3>0 stars...</h3>
+  <div class="well">
+    <% @star0.each do |c| %>
+      <hr>
+      <h4><%= link_to "#{c.title}", comment_path(c) %></h4>
+      <p><%= c.body.truncate(20) %></p>
+    <% end %>
+  </div>
+</div>

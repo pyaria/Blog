@@ -6,6 +6,6 @@
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 100.times do
-  Post.create({title: Faker::Book.title, body: Faker::Lorem.paragraph})
+  Comment.create({title: Faker::Book.title, body: Faker::Lorem.paragraph, rating: rand(5) + 1})
 end
-print Cowsay::say("Created a 100 posts!")
+print Cowsay::say("Created a 100 comments!")

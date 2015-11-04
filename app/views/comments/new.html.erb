@@ -1,0 +1,27 @@
+<div class="container-fluid">
+  <h1>Create a new comment</h1>
+  <%= form_for @c do |c| %>
+    <div>
+      <%= c.label :title %>
+      <%= c.text_field :title %>
+    </div>
+    <div>
+      <%= c.label :rating %>
+      <%= c.radio_button :rating, "1" %>
+      <%= c.label "1 star" %>
+      <%= c.radio_button :rating, "2" %>
+      <%= c.label "2 stars" %>
+      <%= c.radio_button :rating, "3" %>
+      <%= c.label "3 stars" %>
+      <%= c.radio_button :rating, "4" %>
+      <%= c.label "4 stars" %>
+      <%= c.radio_button :rating, "5" %>
+      <%= c.label "5 stars" %>
+    </div>
+    <div>
+      <%= c.label :body %>
+      <%= c.text_area :body %>
+    </div>
+    <%= c.submit %>
+  <% end %>
+</div>

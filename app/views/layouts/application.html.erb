@@ -9,7 +9,9 @@
 <body>
   <%= link_to "Home", root_path %> |
   <%= link_to "About", '/about' %> |
-  <%= link_to "New Post", new_post_path %>
+  <%= link_to "New Post", new_post_path %> |
+  <%= link_to "New Comment", new_comment_path %> |
+  <%= link_to "All Comments", comments_path %>
   <hr>
   <% if flash[:notice] %>
     <%= flash[:notice] %>

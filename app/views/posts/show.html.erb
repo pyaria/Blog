@@ -1,6 +1,8 @@
-<h1>Blog Post</h1>
-<hr>
-<h3><%= @p.title %></h3>
-<p><%= @p.body %></p>
-<%= link_to "Edit", edit_post_path(@p) %>
-<%= link_to("Delete", post_path(@p), {method: :delete, data: {confirm: "Are you sure?"}}) %>
+<div class="container-fluid">
+  <h1>Blog Post</h1>
+  <hr>
+  <h3><%= @p.title %></h3>
+  <p><%= @p.body %></p>
+  <%= link_to "Edit", edit_post_path(@p) %>
+  <%= link_to("Delete", post_path(@p), {method: :delete, data: {confirm: "Are you sure?"}}) %>
+</div>

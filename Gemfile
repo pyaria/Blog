@@ -41,6 +41,7 @@ group :development, :test do
   gem "bootstrap-sass"
   gem "cowsay"
   gem "faker"
+  gem 'kaminari'
 end
 
 group :development do

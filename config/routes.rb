@@ -3,6 +3,7 @@ Rails.application.routes.draw do
   resources :posts
   root 'posts#index', as: :root
   get '/about' => 'home#about'
+  resources :comments
   # get '/about' => 'home#about', as: :about
   # get '/blogposts/new' => 'blogposts#new', as: :new_blogpost
   # post '/blogposts/:id/view' => 'blogposts#view', as: :blogpost
