@@ -1,0 +1,15 @@
+<%= form_for @p do |p| %>
+  <div class="form-group">
+    <%= p.label :title %>
+    <%= p.text_field :title, class: "form-control" %>
+  </div>
+  <div class="form-group">
+    <%= p.label :body %>
+    <%= p.text_area :body, class: "form-control"%>
+  </div>
+  <div class="form-group">
+    <%= p.label :public %>
+    <%= p.check_box :public%>
+  </div>
+  <%= p.submit %>
+<% end %>

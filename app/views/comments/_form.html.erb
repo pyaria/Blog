@@ -1,0 +1,24 @@
+<%= form_for @c do |c| %>
+  <div class="form-group">
+    <%= c.label :title %>
+    <%= c.text_field :title, class: "form-control form-25"%>
+  </div>
+  <div class="form-group">
+    <%= c.label :rating %>
+    <%= c.radio_button :rating, "5" %>
+    <%= c.label "5 stars" %>
+    <%= c.radio_button :rating, "4" %>
+    <%= c.label "4 stars" %>
+    <%= c.radio_button :rating, "3" %>
+    <%= c.label "3 stars" %>
+    <%= c.radio_button :rating, "2" %>
+    <%= c.label "2 stars" %>
+    <%= c.radio_button :rating, "1" %>
+    <%= c.label "1 star" %>
+  </div>
+  <div class="form-group">
+    <%= c.label :body %>
+    <%= c.text_area :body, class: "form-control form-25" %>
+  </div>
+  <%= c.submit %>
+<% end %>

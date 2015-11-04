@@ -8,7 +8,7 @@ class PostsController < ApplicationController
   end
 
   def create
-    @p = Post.new(params.require(:post).permit([:title, :body, :public]))
+    @p = Post.new(post_params)
     if @p.save
       @message = "Post created!"
       flash[:notice] = "Post Created!"
@@ -28,7 +28,7 @@ class PostsController < ApplicationController
 
   def update
     edit
-    @p.update(params.require(:post).permit([:title, :body, :public]))
+    @p.update(post_params)
     if @p.save
       redirect_to(root_path, notice: "Post updated!")
     else
@@ -40,5 +40,10 @@ class PostsController < ApplicationController
     @p = Post.find(params[:id])
     @p.destroy
     redirect_to(root_path, notice: "Post deleted successfully")
+  end
+
+  private
+  def post_params
+    params.require(:post).permit([:title, :body, :public])
   end
 end

@@ -5,7 +5,6 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-100.times do
-  Comment.create({title: Faker::Book.title, body: Faker::Lorem.paragraph, rating: rand(5) + 1})
-end
-print Cowsay::say("Created a 100 comments!")
+# get ids from all posts to array.
+# iterate through all comments; where post_id == nil, random populate from array
+# [array].sample

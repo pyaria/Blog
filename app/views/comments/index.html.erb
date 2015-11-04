@@ -4,8 +4,7 @@
   <h3>5 stars!</h3>
   <div class="well">
     <% @star5.each do |c| %>
-      <h4><%=
-         link_to "#{c.title}", comment_path(c) %></h4>
+      <h4><%= link_to "#{c.title}", comment_path(c) %></h4>
       <p><%= c.body.truncate(20) %></p>
     <% end %>
   </div>
