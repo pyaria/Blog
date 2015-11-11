@@ -1,12 +1,10 @@
 class CommentsController < ApplicationController
   def index
-    comments = Comment.all
-    @star5 = Comment.where(rating: "5")
-    @star4 = Comment.where(rating: "4")
-    @star3 = Comment.where(rating: "3")
-    @star2 = Comment.where(rating: "2")
-    @star1 = Comment.where(rating: "1")
-    @star0 = Comment.where(rating: nil)
+    @comments = Comment.all
+    @ratedComments = {}
+    5.downto(0) { |n|
+      @ratedComments["#{n}"] = (Comment.where(rating: n))
+    }
   end
 
   def new
@@ -15,6 +13,9 @@ class CommentsController < ApplicationController
 
   def create
     @c = Comment.new(comment_params)
+    if @c.rating == nil
+      @c.rating = 0
+    end
     if @c.save
       redirect_to comments_path
     else
