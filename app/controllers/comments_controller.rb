@@ -1,10 +1,11 @@
 class CommentsController < ApplicationController
+  before_action :authenticate_user, except: [:index, :show]
   def index
     @comments = Comment.all
     @ratedComments = {}
-    5.downto(0) { |n|
+    5.downto(0) do |n|
       @ratedComments["#{n}"] = (Comment.where(rating: n))
-    }
+    end
   end
 
   def new

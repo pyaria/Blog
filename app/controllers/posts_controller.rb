@@ -1,4 +1,6 @@
 class PostsController < ApplicationController
+  before_action :authenticate_user, except: [:index, :show]
+  before_action :authorize, only: [:edit, :update, :destroy]
   def index
     @p = Post.order('created_at ASC').page params[:page]
   end
@@ -20,6 +22,7 @@ class PostsController < ApplicationController
 
   def show
     @p = Post.find(params[:id])
+    @c = @p.comments
   end
 
   def edit

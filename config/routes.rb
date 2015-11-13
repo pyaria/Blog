@@ -4,6 +4,8 @@ Rails.application.routes.draw do
   root 'posts#index', as: :root
   get '/about' => 'home#about'
   resources :comments
+  resources :users
+  resources :sessions, only: [:new, :create, :destroy]
   # get '/about' => 'home#about', as: :about
   # get '/blogposts/new' => 'blogposts#new', as: :new_blogpost
   # post '/blogposts/:id/view' => 'blogposts#view', as: :blogpost

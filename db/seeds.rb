@@ -8,3 +8,16 @@
 # get ids from all posts to array.
 # iterate through all comments; where post_id == nil, random populate from array
 # [array].sample
+
+posts = Post.all
+posts.each do |post|
+  post.user ||= User.order("RANDOM()").first
+  post.save
+end
+
+comments = Comment.all
+comments.each do |comment|
+  comment.user ||= User.order("RANDOM()").first
+  comment.post ||= Post.order("RANDOM()").first
+  comment.save
+end
