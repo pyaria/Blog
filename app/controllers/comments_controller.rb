@@ -8,24 +8,25 @@ class CommentsController < ApplicationController
     end
   end
 
-  def new
-    @c = Comment.new
-  end
-
   def create
-    @c = Comment.new(comment_params)
-    if @c.rating == nil
-      @c.rating = 0
+    @post = Post.find(params[:post_id])
+    @comment = Comment.new(comment_params)
+    @comment.user = current_user
+    #@comment = current_user.comments.new(comment_params)
+    @comment.post = @post
+    if @comment.rating == nil
+      @comment.rating = 0
     end
-    if @c.save
-      redirect_to comments_path
+    if @comment.save
+      redirect_to post_path(@post)
     else
-      render :new
+      render "posts/show"
     end
   end
 
   def show
     @c = Comment.find(params[:id])
+    @p = @c.post_id
   end
 
   def edit
@@ -34,8 +35,9 @@ class CommentsController < ApplicationController
 
   def update
     @c = Comment.new(comment_params)
+    p = @c.post_id
     if @c.save
-      redirect_to comments_path
+      redirect_to post_path(p)
     else
       render :edit
     end

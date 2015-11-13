@@ -1,9 +1,11 @@
 Rails.application.routes.draw do
   # root 'home#index', as: :root
-  resources :posts
   root 'posts#index', as: :root
   get '/about' => 'home#about'
-  resources :comments
+  resources :posts do
+    resources :comments
+  end
+  resources :comments, only: [:index, :show]
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
   # get '/about' => 'home#about', as: :about
