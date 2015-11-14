@@ -4,17 +4,11 @@
     <%= c.text_field :title, class: "form-control form-25"%>
   </div>
   <div class="form-group">
+    <% 5.downto(1).each do |num| %>
     <%= c.label :rating %>
-    <%= c.radio_button :rating, "5" %>
-    <%= c.label "5 stars" %>
-    <%= c.radio_button :rating, "4" %>
-    <%= c.label "4 stars" %>
-    <%= c.radio_button :rating, "3" %>
-    <%= c.label "3 stars" %>
-    <%= c.radio_button :rating, "2" %>
-    <%= c.label "2 stars" %>
-    <%= c.radio_button :rating, "1" %>
-    <%= c.label "1 star" %>
+      <%= c.radio_button :rating, "#{num}" %>
+      <%= c.label "#{num} stars" %>
+    <% end %>
   </div>
   <div class="form-group">
     <%= c.label :body %>

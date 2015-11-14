@@ -1,11 +1,12 @@
 <h1>Blog Post</h1>
 <hr>
 <h3><%= @post.title %></h3>
-<p>Author: <%= @post.user.first_name %></p>
+<p>Author: <%= @first_name %></p>
 <p><%= @post.body %></p>
 <% if can? :manage, @post %>
   <%= link_to "Edit", edit_post_path(@post) %>
-  <%= link_to("Delete", post_path(@post), {method: :delete, data: {confirm: "Are you sure?"}}) %>
+  <%= link_to("Delete", post_path(@post), {method: :delete,
+          data: {confirm: "Are you sure?"}}) %>
 <% end %>
 <hr>
 <%= form_for [@post, @comment] do |comment| %>
@@ -15,17 +16,12 @@
   </div>
   <div class="form-group">
     <%= comment.label :rating %>
-    <%= comment.radio_button :rating, "5" %>
-    <%= comment.label "5 stars" %>
-    <%= comment.radio_button :rating, "4" %>
-    <%= comment.label "4 stars" %>
-    <%= comment.radio_button :rating, "3" %>
-    <%= comment.label "3 stars" %>
-    <%= comment.radio_button :rating, "2" %>
-    <%= comment.label "2 stars" %>
-    <%= comment.radio_button :rating, "1" %>
-    <%= comment.label "1 star" %>
+    <% 5.downto(1).each do |num|  %>
+      <%= comment.radio_button :rating, "#{num}" %>
+      <%= comment.label "#{num} stars" %><%= generate_stars(num) %>
+    <% end %>
   </div>
+
   <div class="form-group">
     <%= comment.label :body %>
     <%= comment.text_area :body, class: "form-control form-25" %>
@@ -40,8 +36,10 @@
   <p><%= comment.body %></p>
   <% if can? :manage, comment %>
     <%= link_to "Edit", edit_post_comment_path(@post, comment) %>
-    <%= link_to "Delete", post_comment_path(@post, comment), {method: :delete, data: {confirm: "Are you sure?"}} %>
+    <%= link_to "Delete", post_comment_path(@post, comment),
+          {method: :delete, data: {confirm: "Are you sure?"}} %>
   <% elsif can? :destroy, comment %>
-    <%= link_to "Delete", post_comment_path(@post, comment), {method: :delete, data: {confirm: "Are you sure?"}} %>
+    <%= link_to "Delete", post_comment_path(@post, comment),
+          {method: :delete, data: {confirm: "Are you sure?"}} %>
   <% end %>
 <% end %>

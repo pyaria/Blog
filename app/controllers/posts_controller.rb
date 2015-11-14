@@ -4,7 +4,8 @@ class PostsController < ApplicationController
 
   def index
     if user_signed_in?
-      @post = Post.where(user_id: current_user.id).order("created_at desc").page params[:page]
+      @post = Post.where(user_id:
+            current_user.id).order("created_at desc").page params[:page]
     else
       @post = Post.order("created_at desc").page params[:page]
     end
@@ -18,17 +19,16 @@ class PostsController < ApplicationController
     @post = Post.new(post_params)
     @post.user = current_user
     if @post.save
-      @message = "Post created!"
-      flash[:notice] = "Post Created!"
-      redirect_to post_path(@post)
+      redirect_to post_path(@post), notice: "Post created!"
     else
-      render :new
+      render :new, alert: "Post not created!"
     end
   end
 
   def show
     @comment = Comment.new
     @post = Post.find(params[:id])
+    @first_name = @post.user.first_name
     @comments = @post.comments
   end
 

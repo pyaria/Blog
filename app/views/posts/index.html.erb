@@ -4,10 +4,11 @@
   <h1>A Sampling of Blog Posts</h1>
 <% end %>
 
-  <% @post.each do |post|%>
-    <div>
-      <h5><%= link_to post.title, post_path(post) %></h5>
-      <p><%= post.body.truncate(25) %></p>
-    </div>
-  <% end %>
+<% @post.each do |post|%>
+  <div>
+    <h5><%= link_to post.title, post_path(post) %></h5>
+    <p><%= post.body.truncate(25) %></p>
+  </div>
+<% end %>
+
 <%= paginate @post %>
