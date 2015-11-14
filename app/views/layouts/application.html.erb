@@ -10,8 +10,7 @@
   <div class="container-fluid form-75">
     <%= link_to "Home", root_path %> |
     <%= link_to "About", '/about' %> |
-    <%= link_to "New Post", new_post_path %> |
-    <%= link_to "All Comments", comments_path %> ||
+    <%= link_to "New Post", new_post_path %> ||
     <% if user_signed_in? %>
       Welcome <%= current_user.first_name %> |
       <%= link_to("Log out", session_path(:user_id), {method: :delete, data: {confirm: "Are you sure?"}}) %>
@@ -21,7 +20,7 @@
     <% end %>
   </div>
   <hr>
-  <div>
+  <div class="container-fluid form-75">
     <% if flash[:notice] %>
       <%= flash[:notice] %>
     <% elsif flash[:alert] %>

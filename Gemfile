@@ -43,6 +43,7 @@ group :development, :test do
   gem "faker"
   gem 'cancancan', '~>1.10'
   gem 'kaminari'
+  gem 'rails-erd'
 end
 
 group :development do

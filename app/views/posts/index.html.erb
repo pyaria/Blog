@@ -1,9 +1,13 @@
-<h1>All your blog posts</h1>
-  <%= @message %>
-  <% @p.each do |p|%>
+<% if user_signed_in? %>
+  <h1>All Your Blog Posts</h1>
+<% else %>
+  <h1>A Sampling of Blog Posts</h1>
+<% end %>
+
+  <% @post.each do |post|%>
     <div>
-      <h5><%= link_to p.title, post_path(p) %></h5>
-      <p><%= p.body.truncate(25) %></p>
+      <h5><%= link_to post.title, post_path(post) %></h5>
+      <p><%= post.body.truncate(25) %></p>
     </div>
   <% end %>
-<%= paginate @p %>
+<%= paginate @post %>

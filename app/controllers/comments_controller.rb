@@ -1,5 +1,6 @@
 class CommentsController < ApplicationController
   before_action :authenticate_user, except: [:index, :show]
+
   def index
     @comments = Comment.all
     @ratedComments = {}
@@ -18,39 +19,40 @@ class CommentsController < ApplicationController
       @comment.rating = 0
     end
     if @comment.save
-      redirect_to post_path(@post)
+      redirect_to post_path(@post), notice: "Comment saved!"
     else
       render "posts/show"
     end
   end
 
   def show
-    @c = Comment.find(params[:id])
-    @p = @c.post_id
+    @comment = Comment.find(params[:id])
+    @post = @comment.post_id
   end
 
   def edit
-    @c = Comment.find(params[:id])
+    @comment = Comment.find(params[:id])
+    @post = Post.find(params[:post_id])
   end
 
   def update
-    @c = Comment.new(comment_params)
-    p = @c.post_id
-    if @c.save
-      redirect_to post_path(p)
+    @comment = Comment.find(params[:id])
+    @comment.post_id = params[:post_id]
+    if @comment.update(comment_params)
+      redirect_to post_path(params[:post_id]), notice: "Comment updated!"
     else
       render :edit
     end
   end
 
   def destroy
-    @c = Comment.find(params[:id])
-    @c.destroy
-    redirect_to comments_path
+    @comment = Comment.find(params[:id])
+    @comment.destroy
+    redirect_to post_path(params[:post_id]), notice: "Comment deleted!"
   end
 
   private
   def comment_params
-    params.require(:comment).permit([:title, :rating, :body])
+    params.require(:comment).permit([:title, :rating, :body, :post_id, :user_id])
   end
 end

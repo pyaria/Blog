@@ -1,34 +1,36 @@
 <h1>Blog Post</h1>
 <hr>
-<h3><%= @p.title %></h3>
-<p>Author: <%= @p.user.first_name %></p>
-<p><%= @p.body %></p>
-<%= link_to "Edit", edit_post_path(@p) %>
-<%= link_to("Delete", post_path(@p), {method: :delete, data: {confirm: "Are you sure?"}}) %>
+<h3><%= @post.title %></h3>
+<p>Author: <%= @post.user.first_name %></p>
+<p><%= @post.body %></p>
+<% if can? :manage, @post %>
+  <%= link_to "Edit", edit_post_path(@post) %>
+  <%= link_to("Delete", post_path(@post), {method: :delete, data: {confirm: "Are you sure?"}}) %>
+<% end %>
 <hr>
-<%= form_for [@post, @comment] do |c| %>
+<%= form_for [@post, @comment] do |comment| %>
   <div class="form-group">
-    <%= c.label :title %>
-    <%= c.text_field :title, class: "form-control form-25"%>
+    <%= comment.label :title %>
+    <%= comment.text_field :title, class: "form-control form-25"%>
   </div>
   <div class="form-group">
-    <%= c.label :rating %>
-    <%= c.radio_button :rating, "5" %>
-    <%= c.label "5 stars" %>
-    <%= c.radio_button :rating, "4" %>
-    <%= c.label "4 stars" %>
-    <%= c.radio_button :rating, "3" %>
-    <%= c.label "3 stars" %>
-    <%= c.radio_button :rating, "2" %>
-    <%= c.label "2 stars" %>
-    <%= c.radio_button :rating, "1" %>
-    <%= c.label "1 star" %>
+    <%= comment.label :rating %>
+    <%= comment.radio_button :rating, "5" %>
+    <%= comment.label "5 stars" %>
+    <%= comment.radio_button :rating, "4" %>
+    <%= comment.label "4 stars" %>
+    <%= comment.radio_button :rating, "3" %>
+    <%= comment.label "3 stars" %>
+    <%= comment.radio_button :rating, "2" %>
+    <%= comment.label "2 stars" %>
+    <%= comment.radio_button :rating, "1" %>
+    <%= comment.label "1 star" %>
   </div>
   <div class="form-group">
-    <%= c.label :body %>
-    <%= c.text_area :body, class: "form-control form-25" %>
+    <%= comment.label :body %>
+    <%= comment.text_area :body, class: "form-control form-25" %>
   </div>
-  <%= c.submit %>
+  <%= comment.submit %>
 <% end %>
 
 <hr>
@@ -36,4 +38,10 @@
   <h3><%= generate_stars(comment.rating) %><%= comment.title %></h3>
   <p>Written by: <%= comment.user.first_name %></p>
   <p><%= comment.body %></p>
+  <% if can? :manage, comment %>
+    <%= link_to "Edit", edit_post_comment_path(@post, comment) %>
+    <%= link_to "Delete", post_comment_path(@post, comment), {method: :delete, data: {confirm: "Are you sure?"}} %>
+  <% elsif can? :destroy, comment %>
+    <%= link_to "Delete", post_comment_path(@post, comment), {method: :delete, data: {confirm: "Are you sure?"}} %>
+  <% end %>
 <% end %>
