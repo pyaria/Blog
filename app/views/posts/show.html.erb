@@ -26,6 +26,21 @@
         {method: :post, class: "icon-big"} %>
 <% end %>
 
+
+<% if !user_signed_in? || !@post.postvoted_by(current_user) %>
+  <%= link_to fa_icon("angle-up"), post_postvotes_path(@post, {postvote: {vote: true}}), {method: :post, class:"icon-big"} %>
+  <%= link_to fa_icon("angle-down"), post_postvotes_path(@post, {postvote: {vote: false}}), {method: :post, class:"icon-big"} %>
+<% elsif @post.postvote_for(current_user).vote? %>
+  <%= link_to fa_icon("angle-up"), post_postvote_path(@post, @post.postvote_for(current_user)), {method: :delete, class:"icon-big text-danger"} %>
+  <%= link_to fa_icon("angle-down"), post_postvote_path(@post, @post.postvote_for(current_user), {postvote: {vote: false}}), {method: :patch, class:"icon-big"} %>
+<% else %>
+  <%= link_to fa_icon("angle-up"), post_postvote_path(@post, @post.postvote_for(current_user), {postvote: {vote: true}}), {method: :patch, class:"icon-big"} %>
+  <%= link_to fa_icon("angle-down"), post_postvote_path(@post, @post.postvote_for(current_user)), {method: :delete, class:"icon-big text-danger"} %>
+<% end %>
+
+
+
+
 <p><%= @post.body %></p>
 <% if can? :manage, @post %>
   <%= link_to "Edit", edit_post_path(@post) %>

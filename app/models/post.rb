@@ -14,6 +14,9 @@ class Post < ActiveRecord::Base
   has_many :favorites, dependent: :destroy
   has_many :favoriting_users, through: :favorites, source: :users
 
+  has_many :postvotes, dependent: :destroy
+  has_many :voting_users, through: :postvotes, source: :users
+
   def like_for(userid)
     likes.find_by_user_id(userid)
   end
@@ -28,6 +31,14 @@ class Post < ActiveRecord::Base
 
   def favorited_by(user)
     favorite_for(user.id).present?
+  end
+
+  def postvote_for(userid)
+    postvotes.find_by_user_id(userid)
+  end
+
+  def postvoted_by(user)
+    postvote_for(user.id).present?
   end
 
   paginates_per 10
