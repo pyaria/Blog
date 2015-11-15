@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151115043510) do
+ActiveRecord::Schema.define(version: 20151115073027) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -37,6 +37,26 @@ ActiveRecord::Schema.define(version: 20151115043510) do
   add_index "categorizations", ["category_id"], name: "index_categorizations_on_category_id", using: :btree
   add_index "categorizations", ["post_id"], name: "index_categorizations_on_post_id", using: :btree
 
+  create_table "comment_likes", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "comment_likes", ["comment_id"], name: "index_comment_likes_on_comment_id", using: :btree
+  add_index "comment_likes", ["user_id"], name: "index_comment_likes_on_user_id", using: :btree
+
+  create_table "commentlikes", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "comment_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "commentlikes", ["comment_id"], name: "index_commentlikes_on_comment_id", using: :btree
+  add_index "commentlikes", ["user_id"], name: "index_commentlikes_on_user_id", using: :btree
+
   create_table "comments", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
@@ -54,6 +74,16 @@ ActiveRecord::Schema.define(version: 20151115043510) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "favorites", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "post_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "favorites", ["post_id"], name: "index_favorites_on_post_id", using: :btree
+  add_index "favorites", ["user_id"], name: "index_favorites_on_user_id", using: :btree
 
   create_table "likes", force: :cascade do |t|
     t.integer  "user_id"
@@ -87,8 +117,14 @@ ActiveRecord::Schema.define(version: 20151115043510) do
 
   add_foreign_key "categorizations", "categories"
   add_foreign_key "categorizations", "posts"
+  add_foreign_key "comment_likes", "comments"
+  add_foreign_key "comment_likes", "users"
+  add_foreign_key "commentlikes", "comments"
+  add_foreign_key "commentlikes", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "favorites", "posts"
+  add_foreign_key "favorites", "users"
   add_foreign_key "likes", "posts"
   add_foreign_key "likes", "users"
   add_foreign_key "posts", "users"

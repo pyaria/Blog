@@ -9,6 +9,8 @@ class User < ActiveRecord::Base
   has_many :commentlikes, dependent: :nullify
   has_many :comments, through: :commentlikes
 
+  has_many :favorites, dependent: :nullify
+  has_many :favorited_posts, through: :favorites, source: :post
   attr_accessor :hello
 
   validates :email, presence: true, uniqueness: true

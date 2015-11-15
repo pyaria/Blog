@@ -18,6 +18,14 @@
         {method: :post, class: "icon-big"} %>
 <% end %>
 
+<% if user_signed_in? && @post.favorited_by(current_user) %>
+  <%= link_to fa_icon("heart"), post_favorite_path(@post,
+        @post.favorite_for(current_user)), {method: :delete, class: "icon-big"} %>
+<% else %>
+  <%= link_to fa_icon("heart-o"), post_favorites_path(@post),
+        {method: :post, class: "icon-big"} %>
+<% end %>
+
 <p><%= @post.body %></p>
 <% if can? :manage, @post %>
   <%= link_to "Edit", edit_post_path(@post) %>
