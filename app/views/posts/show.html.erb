@@ -47,7 +47,13 @@
 <hr>
 
 <% @comments.each do |comment| %>
-  <h3><%= generate_stars(comment.rating) %><%= comment.title %></h3>
+  <h3><%= generate_stars(comment.rating) %><%= comment.title %>
+    <% if user_signed_in? && comment.commentliked_by(current_user) %>
+      <%= link_to fa_icon("thumbs-up"), comment_commentlike_path(comment, comment.commentlike_for(current_user)), {method: :delete, class: "icon-big"} %>
+    <% else %>
+      <%= link_to fa_icon("thumbs-o-up"), comment_commentlikes_path(comment), {method: :post, class: "icon-big"} %>
+    <% end %>
+  </h3>
   <p>Written by: <%= comment.user.first_name %></p>
   <p><%= comment.body %></p>
   <% if can? :manage, comment %>

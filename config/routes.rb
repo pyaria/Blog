@@ -9,4 +9,8 @@ Rails.application.routes.draw do
   end
   resources :users
   resources :sessions, only: [:new, :create, :destroy]
+
+  resources :comments, only: :show do
+    resources :commentlikes, only: [:create, :destroy]
+  end
 end
