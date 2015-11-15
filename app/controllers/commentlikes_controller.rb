@@ -22,5 +22,5 @@ class CommentlikesController < ApplicationController
       redirect_to post_path(post), notice: "Comment unlike not saved!"
     end
   end
-  
+
 end

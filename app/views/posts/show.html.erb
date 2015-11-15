@@ -1,6 +1,5 @@
-<h1>Blog Post</h1>
+<h1><%= @post.title %></h1>
 <hr>
-<h3><%= @post.title %></h3>
 <p>Author: <%= @first_name %></p>
 
 <% if @post.categories.any? %>
@@ -12,9 +11,11 @@
 <% end %>
 
 <% if user_signed_in? && @post.liked_by(current_user) %>
-  <%= link_to fa_icon("thumbs-up"), post_like_path(@post, @post.like_for(current_user)), {method: :delete, class: "icon-big"} %>
+  <%= link_to fa_icon("thumbs-up"), post_like_path(@post,
+        @post.like_for(current_user)), {method: :delete, class: "icon-big"} %>
 <% else %>
-  <%= link_to fa_icon("thumbs-o-up"), post_likes_path(@post), {method: :post, class: "icon-big"} %>
+  <%= link_to fa_icon("thumbs-o-up"), post_likes_path(@post),
+        {method: :post, class: "icon-big"} %>
 <% end %>
 
 <p><%= @post.body %></p>
@@ -49,9 +50,11 @@
 <% @comments.each do |comment| %>
   <h3><%= generate_stars(comment.rating) %><%= comment.title %>
     <% if user_signed_in? && comment.commentliked_by(current_user) %>
-      <%= link_to fa_icon("thumbs-up"), comment_commentlike_path(comment, comment.commentlike_for(current_user)), {method: :delete, class: "icon-big"} %>
+      <%= link_to fa_icon("thumbs-up"), comment_commentlike_path(comment,
+            comment.commentlike_for(current_user)), {method: :delete} %>
     <% else %>
-      <%= link_to fa_icon("thumbs-o-up"), comment_commentlikes_path(comment), {method: :post, class: "icon-big"} %>
+      <%= link_to fa_icon("thumbs-o-up"), comment_commentlikes_path(comment),
+            {method: :post} %>
     <% end %>
   </h3>
   <p>Written by: <%= comment.user.first_name %></p>
