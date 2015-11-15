@@ -1,15 +1,18 @@
 <%= form_for @post do |post| %>
-  <div class="form-group">
+  <div class="form-group form-75">
     <%= post.label :title %>
     <%= post.text_field :title, class: "form-control" %>
   </div>
-  <div class="form-group">
+  <div class="form-group form-75">
     <%= post.label :body %>
     <%= post.text_area :body, class: "form-control", rows: 15%>
   </div>
-  <div class="form-group">
+  <div class="form-group form-75">
     <%= post.label :public %>
     <%= post.check_box :public%>
+  </div>
+  <div class="form-group form-75">
+    <%= post.collection_check_boxes :category_ids, Category.order(:name), :id, :name %>
   </div>
   <%= post.submit %>
 <% end %>

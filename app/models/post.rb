@@ -5,6 +5,8 @@ class Post < ActiveRecord::Base
   has_many :comments, dependent: :destroy
   belongs_to :user
 
+  has_many :categorizations, dependent: :destroy
+  has_many :categories, through: :categorizations
 
   paginates_per 10
 end
