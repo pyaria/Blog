@@ -6,6 +6,7 @@ class PostsController < ApplicationController
     if user_signed_in?
       @post = Post.where(user_id:
             current_user.id).order("created_at desc").page params[:page]
+      @otherposts = Post.order("created_at desc").limit(10)
     else
       @post = Post.order("created_at desc").page params[:page]
     end

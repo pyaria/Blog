@@ -44,6 +44,7 @@ group :development, :test do
   gem 'cancancan', '~>1.10'
   gem 'kaminari'
   gem 'rails-erd'
+  gem 'font-awesome-rails'
 end
 
 group :development do
