@@ -1,6 +1,7 @@
 class LikesController < ApplicationController
+  before_action :post
+  
   def create
-    post = Post.find params[:post_id]
     like = current_user.likes.new
     like.post = post
     if like.save
@@ -11,10 +12,13 @@ class LikesController < ApplicationController
   end
 
   def destroy
-    post = Post.find params[:post_id]
     like = post.like_for(current_user)
     like.destroy
     redirect_to post_path(post), notice: "You've unliked this post!"
   end
 
+  private
+  def post
+    Post.find params[:post_id]
+  end
 end

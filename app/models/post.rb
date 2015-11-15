@@ -41,5 +41,9 @@ class Post < ActiveRecord::Base
     postvote_for(user.id).present?
   end
 
+  def vote_total
+    postvotes.select{|v| v.vote?}.count - postvotes.select{|v| !v.vote?}.count
+  end
+
   paginates_per 10
 end

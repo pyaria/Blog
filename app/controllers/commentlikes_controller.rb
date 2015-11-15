@@ -1,7 +1,7 @@
 class CommentlikesController < ApplicationController
+  before_action :comment
 
   def create
-    comment = Comment.find params[:comment_id]
     commentlike = current_user.commentlikes.new
     post = Post.find comment.post_id
     commentlike.comment = comment
@@ -13,7 +13,6 @@ class CommentlikesController < ApplicationController
   end
 
   def destroy
-    comment = Comment.find params[:comment_id]
     post = Post.find comment.post_id
     commentlike = Commentlike.find params[:id]
     if commentlike.destroy
@@ -21,6 +20,11 @@ class CommentlikesController < ApplicationController
     else
       redirect_to post_path(post), notice: "Comment unlike not saved!"
     end
+  end
+
+  private
+  def comment
+    Comment.find params[:comment_id]
   end
 
 end

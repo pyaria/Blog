@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20151115075812) do
+ActiveRecord::Schema.define(version: 20151115081952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -69,6 +69,17 @@ ActiveRecord::Schema.define(version: 20151115075812) do
 
   add_index "comments", ["post_id"], name: "index_comments_on_post_id", using: :btree
   add_index "comments", ["user_id"], name: "index_comments_on_user_id", using: :btree
+
+  create_table "commentvotes", force: :cascade do |t|
+    t.integer  "user_id"
+    t.integer  "comment_id"
+    t.boolean  "vote"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  add_index "commentvotes", ["comment_id"], name: "index_commentvotes_on_comment_id", using: :btree
+  add_index "commentvotes", ["user_id"], name: "index_commentvotes_on_user_id", using: :btree
 
   create_table "contacts", force: :cascade do |t|
     t.datetime "created_at", null: false
@@ -134,6 +145,8 @@ ActiveRecord::Schema.define(version: 20151115075812) do
   add_foreign_key "commentlikes", "users"
   add_foreign_key "comments", "posts"
   add_foreign_key "comments", "users"
+  add_foreign_key "commentvotes", "comments"
+  add_foreign_key "commentvotes", "users"
   add_foreign_key "favorites", "posts"
   add_foreign_key "favorites", "users"
   add_foreign_key "likes", "posts"

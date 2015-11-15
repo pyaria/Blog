@@ -17,6 +17,9 @@ class User < ActiveRecord::Base
   has_many :postvotes, dependent: :nullify
   has_many :voted_posts, through: :postvotes, source: :post
 
+  has_many :commentvotes, dependent: :nullify
+  has_many :voted_comments, through: :commentvotes, source: :comment
+
   attr_accessor :hello
 
 end

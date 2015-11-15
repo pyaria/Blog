@@ -1,7 +1,7 @@
 <h1><%= @post.title %></h1>
 <hr>
 <p>Author: <%= @first_name %></p>
-
+<!-- DISPLAY CATEGORY LABELS -->
 <% if @post.categories.any? %>
   <% @post.categories.each do |cat| %>
     <div class="label label-primary">
@@ -10,6 +10,7 @@
   <% end %>
 <% end %>
 
+<!-- DISPLAY LIKE ICON -->
 <% if user_signed_in? && @post.liked_by(current_user) %>
   <%= link_to fa_icon("thumbs-up"), post_like_path(@post,
         @post.like_for(current_user)), {method: :delete, class: "icon-big"} %>
@@ -18,6 +19,7 @@
         {method: :post, class: "icon-big"} %>
 <% end %>
 
+<!-- DISPLAY FAVORITE ICON -->
 <% if user_signed_in? && @post.favorited_by(current_user) %>
   <%= link_to fa_icon("heart"), post_favorite_path(@post,
         @post.favorite_for(current_user)), {method: :delete, class: "icon-big"} %>
@@ -26,22 +28,35 @@
         {method: :post, class: "icon-big"} %>
 <% end %>
 
-
+<!-- DISPLAY VOTE ICON -->
 <% if !user_signed_in? || !@post.postvoted_by(current_user) %>
-  <%= link_to fa_icon("angle-up"), post_postvotes_path(@post, {postvote: {vote: true}}), {method: :post, class:"icon-big"} %>
-  <%= link_to fa_icon("angle-down"), post_postvotes_path(@post, {postvote: {vote: false}}), {method: :post, class:"icon-big"} %>
+  <%= link_to fa_icon("angle-up"), post_postvotes_path(@post,
+        {postvote: {vote: true}}), {method: :post, class:"icon-big"} %>
+  <%= link_to fa_icon("angle-down"), post_postvotes_path(@post,
+        {postvote: {vote: false}}), {method: :post, class:"icon-big"} %>
 <% elsif @post.postvote_for(current_user).vote? %>
-  <%= link_to fa_icon("angle-up"), post_postvote_path(@post, @post.postvote_for(current_user)), {method: :delete, class:"icon-big text-danger"} %>
-  <%= link_to fa_icon("angle-down"), post_postvote_path(@post, @post.postvote_for(current_user), {postvote: {vote: false}}), {method: :patch, class:"icon-big"} %>
+  <%= link_to fa_icon("angle-up"), post_postvote_path(@post,
+        @post.postvote_for(current_user)),
+        {method: :delete, class:"icon-big text-danger"} %>
+  <%= link_to fa_icon("angle-down"), post_postvote_path(@post,
+        @post.postvote_for(current_user), {postvote: {vote: false}}),
+        {method: :patch, class:"icon-big"} %>
 <% else %>
-  <%= link_to fa_icon("angle-up"), post_postvote_path(@post, @post.postvote_for(current_user), {postvote: {vote: true}}), {method: :patch, class:"icon-big"} %>
-  <%= link_to fa_icon("angle-down"), post_postvote_path(@post, @post.postvote_for(current_user)), {method: :delete, class:"icon-big text-danger"} %>
+  <%= link_to fa_icon("angle-up"), post_postvote_path(@post,
+        @post.postvote_for(current_user), {postvote: {vote: true}}),
+        {method: :patch, class:"icon-big"} %>
+  <%= link_to fa_icon("angle-down"), post_postvote_path(@post,
+        @post.postvote_for(current_user)),
+        {method: :delete, class:"icon-big text-danger"} %>
 <% end %>
+<i><p><%= pluralize(@post.likes.count, "like")%>,
+        <%= pluralize(@post.favorites.count, "favorite") %>,
+        <%= pluralize(@post.vote_total, "vote") %>!</p></i>
 
 
-
-
+<!-- DISPLAY POST BODY -->
 <p><%= @post.body %></p>
+<!-- DISPLAY LINKS TO EDIT/DELETE POST, IF PERMITTED -->
 <% if can? :manage, @post %>
   <%= link_to "Edit", edit_post_path(@post) %>
   <%= link_to("Delete", post_path(@post), {method: :delete,
@@ -49,6 +64,7 @@
 <% end %>
 <hr>
 
+<!-- DISPLAY COMMENT BOX FOR COMMENTING ON POST -->
 <%= form_for [@post, @comment] do |comment| %>
   <div class="form-group">
     <%= comment.label :title %>
@@ -56,6 +72,7 @@
   </div>
   <div class="form-group">
     <%= comment.label :rating %>
+    <!-- DISPLAY STARS FOR RATING -->
     <% 5.downto(1).each do |num|  %>
       <%= comment.radio_button :rating, "#{num}" %>
       <%= comment.label "#{num} stars" %><%= generate_stars(num) %>
@@ -70,8 +87,10 @@
 
 <hr>
 
+<!-- DISPLAY COMMENTS FOR POST -->
 <% @comments.each do |comment| %>
   <h3><%= generate_stars(comment.rating) %><%= comment.title %>
+    <!-- DISPLAY LIKE ICON FOR COMMENT -->
     <% if user_signed_in? && comment.commentliked_by(current_user) %>
       <%= link_to fa_icon("thumbs-up"), comment_commentlike_path(comment,
             comment.commentlike_for(current_user)), {method: :delete} %>
@@ -79,9 +98,33 @@
       <%= link_to fa_icon("thumbs-o-up"), comment_commentlikes_path(comment),
             {method: :post} %>
     <% end %>
+    <!-- DISPLAY VOTE ICON FOR COMMENT -->
+    <% if !user_signed_in? || !comment.commentvoted_by(current_user) %>
+      <%= link_to fa_icon("angle-up"), comment_commentvotes_path(comment,
+            {commentvote: {vote: true}}), {method: :post, class:"icon-big"} %>
+      <%= link_to fa_icon("angle-down"), comment_commentvotes_path(comment,
+            {commentvote: {vote: false}}), {method: :post, class:"icon-big"} %>
+    <% elsif comment.commentvote_for(current_user).vote? %>
+      <%= link_to fa_icon("angle-up"), comment_commentvote_path(comment,
+            comment.commentvote_for(current_user)),
+            {method: :delete, class:"icon-big text-danger"} %>
+      <%= link_to fa_icon("angle-down"), comment_commentvote_path(comment,
+            comment.commentvote_for(current_user), {commentvote: {vote: false}}),
+            {method: :patch, class:"icon-big"} %>
+    <% else %>
+      <%= link_to fa_icon("angle-up"), comment_commentvote_path(comment,
+            comment.commentvote_for(current_user), {commentvote: {vote: true}}),
+            {method: :patch, class:"icon-big"} %>
+      <%= link_to fa_icon("angle-down"), comment_commentvote_path(comment,
+            comment.commentvote_for(current_user)),
+            {method: :delete, class:"icon-big text-danger"} %>
+    <% end %>
   </h3>
+  <i><p><%= pluralize(comment.commentlikes.count, "like") %>,
+          <%= pluralize(comment.vote_total, "vote") %>!</p></i>
   <p>Written by: <%= comment.user.first_name %></p>
   <p><%= comment.body %></p>
+  <!-- DISPLAY EDIT/DELETE LINKS, IF PERMITTED -->
   <% if can? :manage, comment %>
     <%= link_to "Edit", edit_post_comment_path(@post, comment) %>
     <%= link_to "Delete", post_comment_path(@post, comment),

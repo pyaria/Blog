@@ -1,7 +1,7 @@
 class FavoritesController < ApplicationController
+  before_action :post
 
   def create
-    post = Post.find params[:post_id]
     favorite = current_user.favorites.new
     favorite.post = post
     if favorite.save
@@ -12,10 +12,14 @@ class FavoritesController < ApplicationController
   end
 
   def destroy
-    post = Post.find params[:post_id]
     favorite = Favorite.find params[:id]
     favorite.destroy
     redirect_to post_path(post), notice: "Post unfavorited!"
+  end
+
+  private
+  def post
+    Post.find params[:post_id]
   end
 
 end

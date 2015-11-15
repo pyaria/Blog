@@ -14,5 +14,6 @@ Rails.application.routes.draw do
 
   resources :comments, only: :show do
     resources :commentlikes, only: [:create, :destroy]
+    resources :commentvotes, only: [:create, :update, :destroy]
   end
 end
