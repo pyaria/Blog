@@ -18,6 +18,7 @@ class CommentsController < ApplicationController
       @comment.rating = 0
     end
     if @comment.save
+      CommentsMailer.notify_post_creator(@comment).deliver_later
       redirect_to post_path(@post), notice: "Comment saved!"
     else
       render "posts/show"

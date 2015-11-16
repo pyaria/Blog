@@ -6,6 +6,7 @@ class CommentlikesController < ApplicationController
     post = Post.find comment.post_id
     commentlike.comment = comment
     if commentlike.save
+      LikesMailer.notify_comment_creator(commentlike).deliver_later
       redirect_to post_path(post), notice: "Comment like saved!"
     else
       redirect_to post_path(post), notice: "Comment like not saved!"

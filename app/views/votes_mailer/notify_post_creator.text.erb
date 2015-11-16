@@ -1,0 +1,5 @@
+Hello <%= @owner.first_name %>!
+Your post, <%= @post.title %>, has a new vote!
+<%= @post.title %> has <%= pluralize(@total_votes, "vote") %> so far.
+Regards,
+The Blog Team

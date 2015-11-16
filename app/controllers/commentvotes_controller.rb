@@ -3,9 +3,10 @@ class CommentvotesController < ApplicationController
   before_action :vote, except: :create
 
   def create
-    new_vote = current_user.commentvotes.new(vote_params)
-    new_vote.comment = comment
-    if new_vote.save
+    vote = current_user.commentvotes.new(vote_params)
+    vote.comment = comment
+    if vote.save
+      VotesMailer.notify_comment_creator(vote).deliver_later
       redirect_to post_path(post), notice: "Vote saved!"
     else
       redirect_to post_path(post), notice: "Vote failed!"
@@ -41,5 +42,5 @@ class CommentvotesController < ApplicationController
   def post
     post = comment.post
   end
-  
+
 end

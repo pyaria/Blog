@@ -5,6 +5,7 @@ class FavoritesController < ApplicationController
     favorite = current_user.favorites.new
     favorite.post = post
     if favorite.save
+      FavoritesMailer.notify_post_creator(favorite).deliver_later
       redirect_to post_path(post), notice: "Post favorited!"
     else
       redirect_to post_path(post), alert: "Favorite failed!"

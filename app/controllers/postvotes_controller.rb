@@ -1,11 +1,12 @@
 class PostvotesController < ApplicationController
-  before_action :post,
+  before_action :post
   before_action :vote, except: :create
 
   def create
     vote = current_user.postvotes.new(postvote_params)
     vote.post = post
     if vote.save
+      VotesMailer.notify_post_creator(vote).deliver_later
       redirect_to post_path(post), notice: "Voted!"
     else
       redirect_to post_path(post), alert: "Vote failed!"

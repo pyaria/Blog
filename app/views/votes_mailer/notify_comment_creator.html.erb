@@ -1,0 +1,5 @@
+<p>Hello <%= @owner.first_name %>!</p>
+<p>Your comment, <%= @comment.title %>, has received a new vote!</p>
+<p><%= @comment.title %> has <%= pluralize(@total_votes, "vote") %> so far!</p>
+<p>Regards,</p>
+<p>The Blog Team</p>
