@@ -1,29 +1,29 @@
 class PostvotesController < ApplicationController
-  before_action :post
+  before_action :find_post, :authenticate_user
   before_action :vote, except: :create
 
   def create
     vote = current_user.postvotes.new(postvote_params)
-    vote.post = post
+    vote.post = @post
     if vote.save
       VotesMailer.notify_post_creator(vote).deliver_later
-      redirect_to post_path(post), notice: "Voted!"
+      redirect_to post_path(@post), notice: "Voted!"
     else
-      redirect_to post_path(post), alert: "Vote failed!"
+      redirect_to post_path(@post), alert: "Vote failed!"
     end
   end
 
   def update
     if vote.update(postvote_params)
-      redirect_to post_path(post), notice: "Vote updated!"
+      redirect_to post_path(@post), notice: "Vote updated!"
     else
-      redirect_to post_path(post), alert: "Vote update failed!"
+      redirect_to post_path(@post), alert: "Vote update failed!"
     end
   end
 
   def destroy
     vote.destroy
-    redirect_to post_path(post), notice: "Vote removed!"
+    redirect_to post_path(@post), notice: "Vote removed!"
   end
 
   private
@@ -31,8 +31,8 @@ class PostvotesController < ApplicationController
     params.require(:postvote).permit(:vote)
   end
 
-  def post
-    Post.find params[:post_id]
+  def find_post
+    @post = Post.find params[:post_id]
   end
 
   def vote

@@ -1,6 +1,5 @@
-<h1><%= @post.title %></h1>
-<hr>
-<p>Author: <%= @first_name %></p>
+<div class="well">
+<h1 class="zero-margin"><%= @post.title %></h1>
 <!-- DISPLAY CATEGORY LABELS -->
 <% if @post.categories.any? %>
   <% @post.categories.each do |cat| %>
@@ -49,9 +48,10 @@
         @post.postvote_for(current_user)),
         {method: :delete, class:"icon-big text-danger"} %>
 <% end %>
-<i><p><%= pluralize(@post.likes.count, "like")%>,
+<i><p class="zero-margin"><%= pluralize(@post.likes.count, "like")%>,
         <%= pluralize(@post.favorites.count, "favorite") %>,
         <%= pluralize(@post.vote_total, "vote") %>!</p></i>
+<p class="zero-margin">Author: <%= @first_name %></p>
 
 
 <!-- DISPLAY POST BODY -->
@@ -65,22 +65,23 @@
 <hr>
 
 <!-- DISPLAY COMMENT BOX FOR COMMENTING ON POST -->
+<h3>Post a comment!</h3>
 <%= form_for [@post, @comment] do |comment| %>
   <div class="form-group">
     <%= comment.label :title %>
-    <%= comment.text_field :title, class: "form-control form-25"%>
+    <%= comment.text_field :title, class: "form-control form-50"%>
   </div>
   <div class="form-group">
     <%= comment.label :rating %>
     <!-- DISPLAY STARS FOR RATING -->
     <% 5.downto(1).each do |num|  %>
       <%= comment.radio_button :rating, "#{num}" %>
-      <%= comment.label "#{num} stars" %><%= generate_stars(num) %>
+      <%= comment.label :"rating_#{num}", "#{num} stars" %><%= generate_stars(num) %>
     <% end %>
   </div>
   <div class="form-group">
     <%= comment.label :body %>
-    <%= comment.text_area :body, class: "form-control form-25" %>
+    <%= comment.text_area :body, class: "form-control form-50", rows: 5 %>
   </div>
   <%= comment.submit %>
 <% end %>
@@ -88,6 +89,7 @@
 <hr>
 
 <!-- DISPLAY COMMENTS FOR POST -->
+<h3>Comments:</h3>
 <% @comments.each do |comment| %>
   <h3><%= generate_stars(comment.rating) %><%= comment.title %>
     <!-- DISPLAY LIKE ICON FOR COMMENT -->
@@ -122,8 +124,8 @@
   </h3>
   <i><p><%= pluralize(comment.commentlikes.count, "like") %>,
           <%= pluralize(comment.vote_total, "vote") %>!</p></i>
-  <p>Written by: <%= comment.user.first_name %></p>
-  <p><%= comment.body %></p>
+  <p class="zero-margin">Written by: <%= comment.user.first_name %></p>
+  <p class="zero-margin"><%= comment.body %></p>
   <!-- DISPLAY EDIT/DELETE LINKS, IF PERMITTED -->
   <% if can? :manage, comment %>
     <%= link_to "Edit", edit_post_comment_path(@post, comment) %>
@@ -134,3 +136,4 @@
           {method: :delete, data: {confirm: "Are you sure?"}} %>
   <% end %>
 <% end %>
+</div>

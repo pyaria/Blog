@@ -1,6 +1,7 @@
 class CommentvotesController < ApplicationController
   before_action :comment, :post
   before_action :vote, except: :create
+  before_action :authenticate_user
 
   def create
     vote = current_user.commentvotes.new(vote_params)
