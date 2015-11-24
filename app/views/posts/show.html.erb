@@ -1,4 +1,8 @@
 <div class="well">
+  <% if @post.image.present? %>
+    <%= image_tag @post.image.url %>
+  <% end %>
+<div class="md-col-4">
 <h1 class="zero-margin"><%= @post.title %></h1>
 <!-- DISPLAY CATEGORY LABELS -->
 <% if @post.categories.any? %>
@@ -66,11 +70,9 @@
 
 <!-- DISPLAY COMMENT BOX FOR COMMENTING ON POST -->
 <h3>Post a comment!</h3>
-<%= form_for [@post, @comment] do |comment| %>
+<%= simple_form_for [@post, @comment] do |comment| %>
   <div class="form-group">
-    <%= comment.label :title %>
-    <%= comment.text_field :title, class: "form-control form-50"%>
-  </div>
+    <%= comment.input :title %>
   <div class="form-group">
     <%= comment.label :rating %>
     <!-- DISPLAY STARS FOR RATING -->
@@ -80,8 +82,7 @@
     <% end %>
   </div>
   <div class="form-group">
-    <%= comment.label :body %>
-    <%= comment.text_area :body, class: "form-control form-50", rows: 5 %>
+    <%= comment.input :body, rows: 5 %>
   </div>
   <%= comment.submit %>
 <% end %>

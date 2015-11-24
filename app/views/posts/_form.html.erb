@@ -1,20 +1,10 @@
-<%= form_for @post do |post| %>
+<%= simple_form_for @post do |post| %>
   <div class="form-group">
-    <%= post.label :title %>
-    <%= post.text_field :title, class: "form-control" %>
-  </div>
-  <div class="form-group">
-    <%= post.label :body %>
-    <%= post.text_area :body, class: "form-control", rows: 12 %>
-  </div>
-  <div class="form-group">
-    <%= post.label :public %>
-    <%= post.check_box :public%>
-  </div>
-  <div class="form-group">
-    <%= post.collection_check_boxes :category_ids, Category.order(:name), :id, :name %>
-  </div>
-  <div class="form-group">
+    <%= post.input :title %>
+    <%= post.input :body %>
+    <%= post.input :public, as: :check_boxes %>
+    <%= post.association :categories, as: :check_boxes %>
+    <%= post.input :image %>
     <%= post.submit %>
   </div>
 <% end %>

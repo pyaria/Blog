@@ -1,4 +1,5 @@
 class Post < ActiveRecord::Base
+  mount_uploader :image, ImageUploader
   validates :title, presence: true, uniqueness: {scope: :body}
   validates :body, presence: true, uniqueness: {scope: :title}
 

@@ -1,5 +1,6 @@
 Hello <%= @owner.first_name %>,
 You've received a new comment on your post <%= @post.title %>!
-Click <%= link_to "here", post_path(@post)%> to see the comment.
+The comment is: <%= @comment.body %>.
+Would you like to reply?
 Regards,
 The Blog Team
