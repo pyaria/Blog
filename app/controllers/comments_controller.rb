@@ -14,14 +14,16 @@ class CommentsController < ApplicationController
     @comment = Comment.new(comment_params)
     @comment.user = current_user
     @comment.post = @post
-    if @comment.rating == nil
-      @comment.rating = 0
-    end
-    if @comment.save
-      CommentsMailer.notify_post_creator(@comment).deliver_later
-      redirect_to post_path(@post), notice: "Comment saved!"
-    else
-      render "posts/show"
+    @comment.rating = 0 if @comment.rating == nil
+    respond_to do |format|
+      if @comment.save
+        CommentsMailer.notify_post_creator(@comment).deliver_later
+        format.js {render :create_success}
+        format.html {redirect_to post_path(@post), notice: "Comment saved!"}
+      else
+        format.js {render :create_failure}
+        format.html {render "posts/show"}
+      end
     end
   end
 
@@ -48,7 +50,10 @@ class CommentsController < ApplicationController
   def destroy
     @comment = Comment.find(params[:id])
     @comment.destroy
-    redirect_to post_path(params[:post_id]), notice: "Comment deleted!"
+    respond_to do |format|
+      format.js {render}
+      format.html {redirect_to post_path(params[:post_id]), notice: "Comment deleted!"}
+    end
   end
 
   private

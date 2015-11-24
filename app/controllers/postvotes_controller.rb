@@ -3,27 +3,39 @@ class PostvotesController < ApplicationController
   before_action :vote, except: :create
 
   def create
-    vote = current_user.postvotes.new(postvote_params)
-    vote.post = @post
-    if vote.save
-      VotesMailer.notify_post_creator(vote).deliver_later
-      redirect_to post_path(@post), notice: "Voted!"
-    else
-      redirect_to post_path(@post), alert: "Vote failed!"
+    @vote = current_user.postvotes.new(postvote_params)
+    @vote.post = @post
+    respond_to do |format|
+      if @vote.save
+        VotesMailer.notify_post_creator(@vote).deliver_later
+        format.html{redirect_to post_path(@post), notice: "Voted!"}
+        format.js{render :create_success}
+      else
+        format.html{redirect_to post_path(@post), alert: "Vote failed!"}
+        format.js{render :create_failure}
+      end
     end
   end
 
   def update
-    if vote.update(postvote_params)
-      redirect_to post_path(@post), notice: "Vote updated!"
-    else
-      redirect_to post_path(@post), alert: "Vote update failed!"
+    @vote = vote
+    respond_to do |format|
+      if @vote.update(postvote_params)
+        format.html{redirect_to post_path(@post), notice: "Vote updated!"}
+        format.js{render :create_success}
+      else
+        format.html{redirect_to post_path(@post), alert: "Vote update failed!"}
+        format.js{render :update_failure}
+      end
     end
   end
 
   def destroy
     vote.destroy
-    redirect_to post_path(@post), notice: "Vote removed!"
+    respond_to do |format|
+      format.html{redirect_to post_path(@post), notice: "Vote removed!"}
+      format.js{render}
+    end
   end
 
   private

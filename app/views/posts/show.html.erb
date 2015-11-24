@@ -1,140 +1,80 @@
 <div class="well">
+<div class="md-col-5 well">
+
+  <!-- DISPLAY IMAGES, IF ANY -->
   <% if @post.image.present? %>
     <%= image_tag @post.image.url %>
   <% end %>
-<div class="md-col-4">
-<h1 class="zero-margin"><%= @post.title %></h1>
-<!-- DISPLAY CATEGORY LABELS -->
-<% if @post.categories.any? %>
-  <% @post.categories.each do |cat| %>
-    <div class="label label-primary">
-      <%= cat.name %>
-    </div>
+
+  <!-- DISPLAY POST TITLE -->
+  <h1 class="zero-margin"><%= @post.title %></h1>
+
+  <!-- DISPLAY CATEGORY LABELS -->
+  <% if @post.categories.any? %>
+    <% @post.categories.each do |cat| %>
+      <div class="label label-primary">
+        <%= cat.name %>
+      </div>
+    <% end %>
   <% end %>
-<% end %>
 
-<!-- DISPLAY LIKE ICON -->
-<% if user_signed_in? && @post.liked_by(current_user) %>
-  <%= link_to fa_icon("thumbs-up"), post_like_path(@post,
-        @post.like_for(current_user)), {method: :delete, class: "icon-big"} %>
-<% else %>
-  <%= link_to fa_icon("thumbs-o-up"), post_likes_path(@post),
-        {method: :post, class: "icon-big"} %>
-<% end %>
-
-<!-- DISPLAY FAVORITE ICON -->
-<% if user_signed_in? && @post.favorited_by(current_user) %>
-  <%= link_to fa_icon("heart"), post_favorite_path(@post,
-        @post.favorite_for(current_user)), {method: :delete, class: "icon-big"} %>
-<% else %>
-  <%= link_to fa_icon("heart-o"), post_favorites_path(@post),
-        {method: :post, class: "icon-big"} %>
-<% end %>
-
-<!-- DISPLAY VOTE ICON -->
-<% if !user_signed_in? || !@post.postvoted_by(current_user) %>
-  <%= link_to fa_icon("angle-up"), post_postvotes_path(@post,
-        {postvote: {vote: true}}), {method: :post, class:"icon-big"} %>
-  <%= link_to fa_icon("angle-down"), post_postvotes_path(@post,
-        {postvote: {vote: false}}), {method: :post, class:"icon-big"} %>
-<% elsif @post.postvote_for(current_user).vote? %>
-  <%= link_to fa_icon("angle-up"), post_postvote_path(@post,
-        @post.postvote_for(current_user)),
-        {method: :delete, class:"icon-big text-danger"} %>
-  <%= link_to fa_icon("angle-down"), post_postvote_path(@post,
-        @post.postvote_for(current_user), {postvote: {vote: false}}),
-        {method: :patch, class:"icon-big"} %>
-<% else %>
-  <%= link_to fa_icon("angle-up"), post_postvote_path(@post,
-        @post.postvote_for(current_user), {postvote: {vote: true}}),
-        {method: :patch, class:"icon-big"} %>
-  <%= link_to fa_icon("angle-down"), post_postvote_path(@post,
-        @post.postvote_for(current_user)),
-        {method: :delete, class:"icon-big text-danger"} %>
-<% end %>
-<i><p class="zero-margin"><%= pluralize(@post.likes.count, "like")%>,
-        <%= pluralize(@post.favorites.count, "favorite") %>,
-        <%= pluralize(@post.vote_total, "vote") %>!</p></i>
-<p class="zero-margin">Author: <%= @first_name %></p>
-
-
-<!-- DISPLAY POST BODY -->
-<p><%= @post.body %></p>
-<!-- DISPLAY LINKS TO EDIT/DELETE POST, IF PERMITTED -->
-<% if can? :manage, @post %>
-  <%= link_to "Edit", edit_post_path(@post) %>
-  <%= link_to("Delete", post_path(@post), {method: :delete,
-          data: {confirm: "Are you sure?"}}) %>
-<% end %>
-<hr>
-
-<!-- DISPLAY COMMENT BOX FOR COMMENTING ON POST -->
-<h3>Post a comment!</h3>
-<%= simple_form_for [@post, @comment] do |comment| %>
-  <div class="form-group">
-    <%= comment.input :title %>
-  <div class="form-group">
-    <%= comment.label :rating %>
-    <!-- DISPLAY STARS FOR RATING -->
-    <% 5.downto(1).each do |num|  %>
-      <%= comment.radio_button :rating, "#{num}" %>
-      <%= comment.label :"rating_#{num}", "#{num} stars" %><%= generate_stars(num) %>
+  <!-- DISPLAY LIKE ICON -->
+  <div id="like">
+    <% if user_signed_in? && @post.liked_by(current_user) %>
+      <%= render "/likes/like" %>
+    <% else %>
+      <%= render "/likes/olike" %>
     <% end %>
   </div>
-  <div class="form-group">
-    <%= comment.input :body, rows: 5 %>
+
+  <!-- DISPLAY FAVORITE ICON -->
+  <div id="favorite">
+    <% if user_signed_in? && @post.favorited_by(current_user) %>
+      <%= render "/favorites/heart" %>
+    <% else %>
+      <%= render "/favorites/oheart" %>
+    <% end %>
   </div>
-  <%= comment.submit %>
-<% end %>
 
-<hr>
+  <!-- DISPLAY VOTE ICON -->
+  <div id="vote">
+    <% if !user_signed_in? || !@post.postvoted_by(current_user) %>
+      <%= render "/postvotes/newvote" %>
+    <% elsif @post.postvote_for(current_user).vote? %>
+        <%= render "/postvotes/postup" %>
+    <% else %>
+      <%= render "/postvotes/postdown" %>
+    <% end %>
+  </div>
 
-<!-- DISPLAY COMMENTS FOR POST -->
-<h3>Comments:</h3>
-<% @comments.each do |comment| %>
-  <h3><%= generate_stars(comment.rating) %><%= comment.title %>
-    <!-- DISPLAY LIKE ICON FOR COMMENT -->
-    <% if user_signed_in? && comment.commentliked_by(current_user) %>
-      <%= link_to fa_icon("thumbs-up"), comment_commentlike_path(comment,
-            comment.commentlike_for(current_user)), {method: :delete} %>
-    <% else %>
-      <%= link_to fa_icon("thumbs-o-up"), comment_commentlikes_path(comment),
-            {method: :post} %>
-    <% end %>
-    <!-- DISPLAY VOTE ICON FOR COMMENT -->
-    <% if !user_signed_in? || !comment.commentvoted_by(current_user) %>
-      <%= link_to fa_icon("angle-up"), comment_commentvotes_path(comment,
-            {commentvote: {vote: true}}), {method: :post, class:"icon-big"} %>
-      <%= link_to fa_icon("angle-down"), comment_commentvotes_path(comment,
-            {commentvote: {vote: false}}), {method: :post, class:"icon-big"} %>
-    <% elsif comment.commentvote_for(current_user).vote? %>
-      <%= link_to fa_icon("angle-up"), comment_commentvote_path(comment,
-            comment.commentvote_for(current_user)),
-            {method: :delete, class:"icon-big text-danger"} %>
-      <%= link_to fa_icon("angle-down"), comment_commentvote_path(comment,
-            comment.commentvote_for(current_user), {commentvote: {vote: false}}),
-            {method: :patch, class:"icon-big"} %>
-    <% else %>
-      <%= link_to fa_icon("angle-up"), comment_commentvote_path(comment,
-            comment.commentvote_for(current_user), {commentvote: {vote: true}}),
-            {method: :patch, class:"icon-big"} %>
-      <%= link_to fa_icon("angle-down"), comment_commentvote_path(comment,
-            comment.commentvote_for(current_user)),
-            {method: :delete, class:"icon-big text-danger"} %>
-    <% end %>
-  </h3>
-  <i><p><%= pluralize(comment.commentlikes.count, "like") %>,
-          <%= pluralize(comment.vote_total, "vote") %>!</p></i>
-  <p class="zero-margin">Written by: <%= comment.user.first_name %></p>
-  <p class="zero-margin"><%= comment.body %></p>
-  <!-- DISPLAY EDIT/DELETE LINKS, IF PERMITTED -->
-  <% if can? :manage, comment %>
-    <%= link_to "Edit", edit_post_comment_path(@post, comment) %>
-    <%= link_to "Delete", post_comment_path(@post, comment),
-          {method: :delete, data: {confirm: "Are you sure?"}} %>
-  <% elsif can? :destroy, comment %>
-    <%= link_to "Delete", post_comment_path(@post, comment),
-          {method: :delete, data: {confirm: "Are you sure?"}} %>
+  <i><p class="zero-margin"><%= pluralize(@post.likes.count, "like")%>,
+          <%= pluralize(@post.favorites.count, "favorite") %>,
+          <%= pluralize(@post.vote_total, "vote") %>!</p></i>
+  <p class="zero-margin">Author: <%= @first_name %></p>
+
+  <!-- DISPLAY POST BODY -->
+  <p><%= @post.body %></p>
+  <!-- DISPLAY LINKS TO EDIT/DELETE POST, IF PERMITTED -->
+  <% if can? :manage, @post %>
+    <%= link_to "Edit", edit_post_path(@post) %>
+    <%= link_to("Delete", post_path(@post), {method: :delete,
+            data: {confirm: "Are you sure?"}}) %>
   <% end %>
-<% end %>
+</div>
+  <hr>
+
+  <!-- DISPLAY COMMENT BOX FOR COMMENTING ON POST -->
+  <h3>Post a comment!</h3>
+  <div class="well" id="comment">
+    <%= render "/comments/form" %>
+  </div>
+  <hr>
+
+  <!-- DISPLAY COMMENTS FOR POST -->
+  <h3>Comments:</h3>
+  <div id="comments">
+  <% @comments.each do |comment| %>
+    <%= render "/comments/comment", comment: comment %>
+  <% end %>
+</div>
 </div>

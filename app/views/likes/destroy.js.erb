@@ -1,0 +1,6 @@
+$('#like').children().replaceWith("<%= j render 'olike' %>").click(function(){
+  $.ajax({
+    type: "POST",
+    url: "/posts/" + post_id + "/likes/"
+  })
+});

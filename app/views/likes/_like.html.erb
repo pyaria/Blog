@@ -1,0 +1,3 @@
+<%= link_to fa_icon("thumbs-up"), post_like_path(@post,
+      @post.like_for(current_user)),
+     {method: :delete, class: "icon-big", remote: true} %>

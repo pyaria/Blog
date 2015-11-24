@@ -1,0 +1,47 @@
+<div id="<%= dom_id(comment) %>">
+  <h3><%= generate_stars(comment.rating) %><%= comment.title %>
+    <!-- DISPLAY LIKE ICON FOR COMMENT -->
+    <% if user_signed_in? && comment.commentliked_by(current_user) %>
+      <%= link_to fa_icon("thumbs-up"), comment_commentlike_path(comment,
+            comment.commentlike_for(current_user)), {method: :delete} %>
+    <% else %>
+      <%= link_to fa_icon("thumbs-o-up"), comment_commentlikes_path(comment),
+            {method: :post} %>
+    <% end %>
+    <!-- DISPLAY VOTE ICON FOR COMMENT -->
+    <% if !user_signed_in? || !comment.commentvoted_by(current_user) %>
+      <%= link_to fa_icon("angle-up"), comment_commentvotes_path(comment,
+            {commentvote: {vote: true}}), {method: :post, class:"icon-big"} %>
+      <%= link_to fa_icon("angle-down"), comment_commentvotes_path(comment,
+            {commentvote: {vote: false}}), {method: :post, class:"icon-big"} %>
+    <% elsif comment.commentvote_for(current_user).vote? %>
+      <%= link_to fa_icon("angle-up"), comment_commentvote_path(comment,
+            comment.commentvote_for(current_user)),
+            {method: :delete, class:"icon-big text-danger"} %>
+      <%= link_to fa_icon("angle-down"), comment_commentvote_path(comment,
+            comment.commentvote_for(current_user), {commentvote: {vote: false}}),
+            {method: :patch, class:"icon-big"} %>
+    <% else %>
+      <%= link_to fa_icon("angle-up"), comment_commentvote_path(comment,
+            comment.commentvote_for(current_user), {commentvote: {vote: true}}),
+            {method: :patch, class:"icon-big"} %>
+      <%= link_to fa_icon("angle-down"), comment_commentvote_path(comment,
+            comment.commentvote_for(current_user)),
+            {method: :delete, class:"icon-big text-danger"} %>
+    <% end %>
+  </h3>
+  <i><p><%= pluralize(comment.commentlikes.count, "like") %>,
+          <%= pluralize(comment.vote_total, "vote") %>!</p></i>
+  <p class="zero-margin">Written by: <%= comment.user.first_name %></p>
+  <p class="zero-margin"><%= comment.body %></p>
+  <!-- DISPLAY EDIT/DELETE LINKS, IF PERMITTED -->
+  <% if can? :manage, comment %>
+    <%= link_to "Edit", edit_post_comment_path(@post, comment) %>
+    <%= link_to "Delete", post_comment_path(@post, comment),
+          {method: :delete, data: {confirm: "Are you sure?"}, remote: true} %>
+  <% elsif can? :destroy, comment %>
+    <%= link_to "Delete", post_comment_path(@post, comment),
+          {method: :delete, data: {confirm: "Are you sure?"}, remote: true} %>
+  <% end %>
+  <hr>
+</div>
