@@ -33,10 +33,12 @@
   <% if can? :manage, comment %>
     <%= link_to "Edit", edit_post_comment_path(@post, comment) %>
     <%= link_to "Delete", post_comment_path(@post, comment),
-          {method: :delete, data: {confirm: "Are you sure?"}, remote: true} %>
+          {method: :delete, data: {confirm: "Are you sure?"},
+          remote: true, comment: comment} %>
   <% elsif can? :destroy, comment %>
     <%= link_to "Delete", post_comment_path(@post, comment),
-          {method: :delete, data: {confirm: "Are you sure?"}, remote: true} %>
+          {method: :delete, data: {confirm: "Are you sure?"},
+          remote: true, comment: comment} %>
   <% end %>
   <hr>
 </div>

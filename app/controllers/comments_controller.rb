@@ -50,6 +50,7 @@ class CommentsController < ApplicationController
   def destroy
     @comment = Comment.find(params[:id])
     @comment.destroy
+    @post = @comment.post
     respond_to do |format|
       format.js {render}
       format.html {redirect_to post_path(params[:post_id]), notice: "Comment deleted!"}
