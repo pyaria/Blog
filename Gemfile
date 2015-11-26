@@ -49,6 +49,7 @@ group :development, :test do
   gem 'rails-erd'
   gem 'font-awesome-rails'
   gem 'simple_form'
+  gem 'pry'
 end
 
 group :development do

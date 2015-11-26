@@ -1,0 +1,4 @@
+<i><p class="zero-margin"><%= pluralize(@post.likes.count, "like")%>,
+        <%= pluralize(@post.favorites.count, "favorite") %>,
+        <%= pluralize(@post.vote_total, "vote") %>,
+        <%= pluralize(@post.comments.count, "comment") %>!</p></i>

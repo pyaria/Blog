@@ -4,3 +4,4 @@ $('#like').children().replaceWith("<%= j render 'olike' %>").click(function(){
     url: "/posts/" + post_id + "/likes/"
   })
 });
+$('#summary').children().replaceWith("<%= j render '/posts/update' %>")

@@ -1,37 +1,32 @@
 <div id="<%= dom_id(comment) %>">
   <h3><%= generate_stars(comment.rating) %><%= comment.title %>
-    <!-- DISPLAY LIKE ICON FOR COMMENT -->
+
+  <!-- DISPLAY LIKE ICON FOR COMMENT -->
+  <div id="commentlikes">
     <% if user_signed_in? && comment.commentliked_by(current_user) %>
-      <%= link_to fa_icon("thumbs-up"), comment_commentlike_path(comment,
-            comment.commentlike_for(current_user)), {method: :delete} %>
+      <%= render "/commentlikes/thumbs", comment: comment %>
     <% else %>
-      <%= link_to fa_icon("thumbs-o-up"), comment_commentlikes_path(comment),
-            {method: :post} %>
+      <%= render "/commentlikes/othumbs", comment: comment %>
     <% end %>
-    <!-- DISPLAY VOTE ICON FOR COMMENT -->
+  </div>
+
+  <!-- DISPLAY VOTE ICON FOR COMMENT -->
+  <div id="commentvotes">
     <% if !user_signed_in? || !comment.commentvoted_by(current_user) %>
-      <%= link_to fa_icon("angle-up"), comment_commentvotes_path(comment,
-            {commentvote: {vote: true}}), {method: :post, class:"icon-big"} %>
-      <%= link_to fa_icon("angle-down"), comment_commentvotes_path(comment,
-            {commentvote: {vote: false}}), {method: :post, class:"icon-big"} %>
+      <%= render "/commentvotes/newvote", comment: comment %>
     <% elsif comment.commentvote_for(current_user).vote? %>
-      <%= link_to fa_icon("angle-up"), comment_commentvote_path(comment,
-            comment.commentvote_for(current_user)),
-            {method: :delete, class:"icon-big text-danger"} %>
-      <%= link_to fa_icon("angle-down"), comment_commentvote_path(comment,
-            comment.commentvote_for(current_user), {commentvote: {vote: false}}),
-            {method: :patch, class:"icon-big"} %>
+      <%= render "/commentvotes/upvote", comment: comment %>
     <% else %>
-      <%= link_to fa_icon("angle-up"), comment_commentvote_path(comment,
-            comment.commentvote_for(current_user), {commentvote: {vote: true}}),
-            {method: :patch, class:"icon-big"} %>
-      <%= link_to fa_icon("angle-down"), comment_commentvote_path(comment,
-            comment.commentvote_for(current_user)),
-            {method: :delete, class:"icon-big text-danger"} %>
+      <%= render "/commentvotes/downvote", comment: comment %>
     <% end %>
+  </div>
   </h3>
-  <i><p><%= pluralize(comment.commentlikes.count, "like") %>,
-          <%= pluralize(comment.vote_total, "vote") %>!</p></i>
+
+  <!-- COMMENT SUMMARY OF LIKES AND VOTES -->
+  <div id="commentsummary_<%=comment.id%>">
+    <%= render "/comments/summary", comment: comment %>
+  </div>
+
   <p class="zero-margin">Written by: <%= comment.user.first_name %></p>
   <p class="zero-margin"><%= comment.body %></p>
   <!-- DISPLAY EDIT/DELETE LINKS, IF PERMITTED -->

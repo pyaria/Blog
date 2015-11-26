@@ -1,0 +1,8 @@
+<%= link_to fa_icon("angle-up"), comment_commentvotes_path(comment,
+      {commentvote: {vote: true}}),
+      {id: "commentvote_#{comment.id}", method: :post,
+      class:"icon-big", remote: true} %>
+<%= link_to fa_icon("angle-down"), comment_commentvotes_path(comment,
+      {commentvote: {vote: false}}),
+      {id: "commentvote_#{comment.id}", method: :post,
+      class:"icon-big", remote: true} %>

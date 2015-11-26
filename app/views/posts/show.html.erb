@@ -1,5 +1,5 @@
 <div class="well">
-<div class="md-col-5 well">
+  <div class="md-col-5 well">
 
   <!-- DISPLAY IMAGES, IF ANY -->
   <% if @post.image.present? %>
@@ -46,13 +46,12 @@
       <%= render "/postvotes/postdown" %>
     <% end %>
   </div>
-
-  <i><p class="zero-margin"><%= pluralize(@post.likes.count, "like")%>,
-          <%= pluralize(@post.favorites.count, "favorite") %>,
-          <%= pluralize(@post.vote_total, "vote") %>!</p></i>
-  <p class="zero-margin">Author: <%= @first_name %></p>
+  <div id="summary">
+    <%= render "update" %>
+  </div>
 
   <!-- DISPLAY POST BODY -->
+  <p class="zero-margin">Author: <%= @first_name %></p>
   <p><%= @post.body %></p>
   <!-- DISPLAY LINKS TO EDIT/DELETE POST, IF PERMITTED -->
   <% if can? :manage, @post %>

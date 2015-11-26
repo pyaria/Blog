@@ -4,27 +4,38 @@ class CommentvotesController < ApplicationController
   before_action :authenticate_user
 
   def create
-    vote = current_user.commentvotes.new(vote_params)
-    vote.comment = comment
-    if vote.save
-      VotesMailer.notify_comment_creator(vote).deliver_later
-      redirect_to post_path(post), notice: "Vote saved!"
-    else
-      redirect_to post_path(post), notice: "Vote failed!"
+    @vote = current_user.commentvotes.new(vote_params)
+    @vote.comment = @comment
+    respond_to do |format|
+      if @vote.save
+        VotesMailer.notify_comment_creator(@vote).deliver_later
+        format.html{redirect_to post_path(post), notice: "Vote saved!"}
+        format.js{render :create_success, comment: @comment}
+      else
+        format.html{redirect_to post_path(post), notice: "Vote failed!"}
+        format.js{render :create_failure}
+      end
     end
   end
 
   def update
-    if vote.update(vote_params)
-      redirect_to post_path(post), notice: "Vote updated!"
-    else
-      redirect_to post_path(post), notice: "Vote update failed!"
+    respond_to do |format|
+      if @vote.update(vote_params)
+        format.html{redirect_to post_path(post), notice: "Vote updated!"}
+        format.js{render :update_success}
+      else
+        format.html{redirect_to post_path(post), notice: "Vote update failed!"}
+        format.js{render :update_failure}
+      end
     end
   end
 
   def destroy
-    vote.destroy
-    redirect_to post_path(post), notice: "Vote removed!"
+    @vote.destroy
+    respond_to do |format|
+      format.html{redirect_to post_path(post), notice: "Vote removed!"}
+      format.js{render}
+    end
   end
 
   private
@@ -33,11 +44,11 @@ class CommentvotesController < ApplicationController
   end
 
   def comment
-    Comment.find params[:comment_id]
+    @comment = Comment.find params[:comment_id]
   end
 
   def vote
-    Commentvote.find params[:id]
+    @vote = Commentvote.find params[:id]
   end
 
   def post

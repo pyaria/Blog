@@ -5,3 +5,4 @@
   $('#vote > a').remove()
   $('#vote').append('<%= j render "postdown" %>');
 <% end %>
+$('#summary').children().replaceWith("<%= j render '/posts/update' %>")

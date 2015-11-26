@@ -1,5 +1,0 @@
-<h2><%= @c.title %></h2>
-<h2><%= @c.rating %></h2>
-<p><%= @c.body %></p>
-<%= link_to "Edit", edit_post_comment_path(@p, @c) %>
-<%= link_to("Delete", post_comment_path(@p, @c), {method: :delete, data: {confirm: "Are you sure?"}})%>

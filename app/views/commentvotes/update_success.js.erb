@@ -1,0 +1,8 @@
+<% if @vote.vote %>
+  $('#commentvote_<%= @comment.id %>').remove();
+  $('#commentvote_<%= @comment.id %>').replaceWith('<%= j render "upvote", comment: @comment %>');
+<% else %>
+  $('#commentvote_<%= @comment.id %>').remove();
+  $('#commentvote_<%= @comment.id %>').replaceWith('<%= j render "downvote", comment: @comment %>');
+<% end %>
+$('#commentsummary_<%= @comment.id %>').replaceWith('<%= j render "/comments/summary", comment: @comment %>')
