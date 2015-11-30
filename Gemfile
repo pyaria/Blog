@@ -49,7 +49,8 @@ group :development, :test do
   gem 'rails-erd'
   gem 'font-awesome-rails'
   gem 'simple_form'
-  gem 'pry'
+  gem 'rspec-rails', '~>3.0'
+  gem 'factory_girl_rails'
 end
 
 group :development do
