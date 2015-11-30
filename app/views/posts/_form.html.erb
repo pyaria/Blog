@@ -1,0 +1,10 @@
+<%= simple_form_for @post do |post| %>
+  <div class="form-group">
+    <%= post.input :title %>
+    <%= post.input :body %>
+    <%= post.input :public, as: :check_boxes %>
+    <%= post.association :categories, as: :check_boxes %>
+    <%= post.input :image %>
+    <%= post.submit %>
+  </div>
+<% end %>

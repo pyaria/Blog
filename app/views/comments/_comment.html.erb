@@ -1,0 +1,44 @@
+<div id="<%= dom_id(comment) %>">
+  <h3><%= generate_stars(comment.rating) %><%= comment.title %>
+
+  <!-- DISPLAY LIKE ICON FOR COMMENT -->
+  <div id="commentlikes">
+    <% if user_signed_in? && comment.commentliked_by(current_user) %>
+      <%= render "/commentlikes/thumbs", comment: comment %>
+    <% else %>
+      <%= render "/commentlikes/othumbs", comment: comment %>
+    <% end %>
+  </div>
+
+  <!-- DISPLAY VOTE ICON FOR COMMENT -->
+  <div id="commentvotes">
+    <% if !user_signed_in? || !comment.commentvoted_by(current_user) %>
+      <%= render "/commentvotes/newvote", comment: comment %>
+    <% elsif comment.commentvote_for(current_user).vote? %>
+      <%= render "/commentvotes/upvote", comment: comment %>
+    <% else %>
+      <%= render "/commentvotes/downvote", comment: comment %>
+    <% end %>
+  </div>
+  </h3>
+
+  <!-- COMMENT SUMMARY OF LIKES AND VOTES -->
+  <div id="commentsummary_<%=comment.id%>">
+    <%= render "/comments/summary", comment: comment %>
+  </div>
+
+  <p class="zero-margin">Written by: <%= comment.user.first_name %></p>
+  <p class="zero-margin"><%= comment.body %></p>
+  <!-- DISPLAY EDIT/DELETE LINKS, IF PERMITTED -->
+  <% if can? :manage, comment %>
+    <%= link_to "Edit", edit_post_comment_path(@post, comment) %>
+    <%= link_to "Delete", post_comment_path(@post, comment),
+          {method: :delete, data: {confirm: "Are you sure?"},
+          remote: true, comment: comment} %>
+  <% elsif can? :destroy, comment %>
+    <%= link_to "Delete", post_comment_path(@post, comment),
+          {method: :delete, data: {confirm: "Are you sure?"},
+          remote: true, comment: comment} %>
+  <% end %>
+  <hr>
+</div>

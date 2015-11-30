@@ -24,23 +24,42 @@ gem 'jbuilder', '~> 2.0'
 gem 'sdoc', '~> 0.4.0', group: :doc
 
 # Use ActiveModel has_secure_password
-# gem 'bcrypt', '~> 3.1.7'
+gem 'bcrypt', '~> 3.1.7'
 
 # Use Unicorn as the app server
 # gem 'unicorn'
 
+gem 'delayed_job_active_record'
+gem 'delayed_job_web'
+gem 'carrierwave'
 # Use Capistrano for deployment
 # gem 'capistrano-rails', group: :development
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug'
+  gem 'hirb'
+  gem 'awesome_print'
+  gem 'interactive_editor'
+  gem "bootstrap-sass"
+  gem "cowsay"
+  gem "faker"
+  gem 'cancancan', '~>1.10'
+  gem 'kaminari'
+  gem 'rails-erd'
+  gem 'font-awesome-rails'
+  gem 'simple_form'
+  gem 'rspec-rails', '~>3.0'
+  gem 'factory_girl_rails'
 end
 
 group :development do
   # Access an IRB console on exception pages or by using <%= console %> in views
   gem 'web-console', '~> 2.0'
 
+  gem 'letter_opener'
+
+  gem 'quiet_assets'
   # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
   gem 'spring'
 end

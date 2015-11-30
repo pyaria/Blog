@@ -1,0 +1,5 @@
+// alert("Destroying comment!");
+$('#<%= dom_id(@comment) %>').fadeOut(1000, function(){
+  $(this).remove();
+});
+$('#summary').children().replaceWith("<%= j render '/posts/update' %>")

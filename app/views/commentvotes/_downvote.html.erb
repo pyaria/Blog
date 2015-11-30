@@ -1,0 +1,8 @@
+<%= link_to fa_icon("angle-up"), comment_commentvote_path(comment,
+      comment.commentvote_for(current_user), {commentvote: {vote: true}}),
+      {id: "commentvote_#{comment.id}", method: :patch,
+      class:"icon-big", remote: true} %>
+<%= link_to fa_icon("angle-down"), comment_commentvote_path(comment,
+      comment.commentvote_for(current_user)),
+      {id: "commentvote_#{comment.id}", method: :delete,
+      class:"icon-big text-danger", remote: true} %>

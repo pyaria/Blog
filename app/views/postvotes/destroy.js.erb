@@ -1,0 +1,3 @@
+$('#vote').children().remove();
+$('#vote').append('<%= j render "newvote" %>');
+$('#summary').children().replaceWith("<%= j render '/posts/update' %>")

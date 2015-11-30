@@ -1,0 +1,6 @@
+<%= link_to fa_icon("angle-up"), post_postvotes_path(@post,
+      {postvote: {vote: true}}),
+      {method: :post, class:"icon-big", remote: true} %>
+<%= link_to fa_icon("angle-down"), post_postvotes_path(@post,
+      {postvote: {vote: false}}),
+      {method: :post, class:"icon-big", remote: true} %>

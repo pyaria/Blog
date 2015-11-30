@@ -1,0 +1,8 @@
+<% if @vote.vote %>
+  $('#vote > a').remove()
+  $('#vote').append('<%= j render "postup" %>');
+<% else %>
+  $('#vote > a').remove()
+  $('#vote').append('<%= j render "postdown" %>');
+<% end %>
+$('#summary').children().replaceWith("<%= j render '/posts/update' %>")

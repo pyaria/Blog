@@ -1,0 +1,3 @@
+$('#commentvote_<%= @comment.id %>').remove();
+$('#commentvote_<%= @comment.id %>').replaceWith('<%= j render "newvote", comment: @comment %>');
+$('#commentsummary_<%= @comment.id %>').replaceWith('<%= j render "/comments/summary", comment: @comment %>')

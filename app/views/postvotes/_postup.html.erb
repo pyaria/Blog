@@ -1,0 +1,6 @@
+<%= link_to fa_icon("angle-up"), post_postvote_path(@post,
+      @post.postvote_for(current_user)),
+      {method: :delete, class:"icon-big text-danger", remote: true} %>
+<%= link_to fa_icon("angle-down"), post_postvote_path(@post,
+      @post.postvote_for(current_user), {postvote: {vote: false}}),
+      {method: :patch, class:"icon-big", remote: true} %>

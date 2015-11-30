@@ -7,8 +7,15 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-
-<%= yield %>
+  <div class="container-fluid form-75">
+    <%= render "/layouts/navbar" %>
+  </div>
+  <hr class="soften margin-top-bottom-less">
+  <div class="container-fluid form-75">
+    <%= render "/layouts/flash_messages" %>
+    <br>
+    <%= yield %>
+  </div>
 
 </body>
 </html>

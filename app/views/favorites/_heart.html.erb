@@ -1,0 +1,3 @@
+<%= link_to fa_icon("heart"), post_favorite_path(@post,
+      @post.favorite_for(current_user)),
+      {method: :delete, class: "icon-big", remote: true} %>

@@ -1,0 +1,3 @@
+<%= link_to fa_icon("thumbs-up"), comment_commentlike_path(comment.id,
+      comment.commentlike_for(current_user)),
+      {id: "commentlike_#{comment.id}", method: :delete, remote: true} %>

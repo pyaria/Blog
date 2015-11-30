@@ -1,0 +1,43 @@
+<% if user_signed_in? %>
+  <div class="col-md-6">
+    <div class="well">
+      <h1 class="zero-margin">Your Blog Posts</h1>
+      <% @post.each do |post|%>
+        <div class="well pad-less">
+          <h5 class="float-left"><%= link_to post.title, post_path(post) %></h5>
+          <h5 class="float-right"><%= post.updated_at.strftime("%Y-%m-%d") %></h5>
+          <p class="clear-left"><%= post.body.truncate(25) %></p>
+        </div>
+      <% end %>
+      <%= paginate @post %>
+    </div>
+  </div>
+
+  <div class="col-md-6">
+    <div class="well">
+      <h1 class="zero-margin">10 Recent Blog Posts</h1>
+        <% @otherposts.each do |post|%>
+        <div class="well pad-less">
+          <h5 class="float-left"><%= link_to post.title, post_path(post) %></h5>
+          <h5 class="float-right"><%= post.updated_at.strftime("%Y-%m-%d") %> </h5>
+          <p class="clear-left"><%= post.user.first_name %> ~
+                  <%= post.body.truncate(25) %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+
+<% else %>
+  <div class="well">
+    <h1 class="zero-margin">A Sampling of Blog Posts</h1>
+    <% @post.each do |post|%>
+      <div class="well pad-less">
+        <h5 class="float-left"><%= link_to post.title, post_path(post) %></h5>
+        <h5 class="float-right"><%= post.updated_at.strftime("%Y-%m-%d") %> </h5>
+        <p class="clear-left"><%= post.user.first_name %> ~
+                <%= post.body.truncate(25) %></p>
+      </div>
+    <% end %>
+    <%= paginate @post %>
+  </div>
+<% end %>

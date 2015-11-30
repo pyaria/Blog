@@ -1,0 +1,2 @@
+$('#commentlike_<%= @comment.id %>').replaceWith('<%= j render "thumbs", comment: @comment %>');
+$('#commentsummary_<%= @comment.id %>').children().replaceWith('<%= j render "/comments/summary", comment: @comment %>');

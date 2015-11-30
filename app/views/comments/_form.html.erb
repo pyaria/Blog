@@ -1,0 +1,11 @@
+<%= simple_form_for [@post, @comment], remote: true do |comment| %>
+  <%= comment.input :title %>
+  <%= comment.label :rating %>
+  <!-- DISPLAY STARS FOR RATING -->
+  <% 5.downto(1).each do |num|  %>
+    <%= comment.radio_button :rating, "#{num}" %>
+    <%= comment.label :"rating_#{num}", "#{num} stars" %><%= generate_stars(num) %>
+  <% end %>
+  <%= comment.input :body %>
+  <%= comment.submit %>
+<% end %>
